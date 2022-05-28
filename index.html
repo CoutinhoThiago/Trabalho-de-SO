@@ -1,0 +1,208 @@
+<!--
+  Autores
+  - Thiago Coutinho
+  - Marcelo Paranhos
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="reset.css">
+		<link rel="stylesheet" href="style.css">
+
+    <script src="script.js"></script>
+
+    <title>ESCALONADOR</title>
+  </head>
+
+
+
+  <body>
+    <div>
+      <div>
+        <h1 Class = "tituloPrincipal">Escalonamento de Processos</h1>
+          <div id="parametrosBasicos">
+            <div class="opcoes">
+              <div style = "margin-top: 10px">
+                <label>Quantum do sistema</label>
+                <input type="number" id="entradaDeQuantum" min="1" required>
+              </div>
+              <div style = "margin-top: 10px; margin-left: 20px;">
+                <label>Sobrecarga do sistema</label>
+                <input type="number" id="entradaDeSobrecarga" min="0" required>
+              </div>
+              <div style = "margin-top: 10px; margin-left: 20px;">
+                <label>Nº Páginas</label>
+                <input type="number" id="entradaDeQuantidadeDePaginas" min="1" max="10" required>
+              </div>
+              <div style = "margin-top: 10px; margin-left: 20px;">
+                <label>Tempo de I/O</label>
+                <input type="number" id="entradaDeTempoDeIO" min="0" required>
+              </div>
+              <div style = "margin-top: 10px; margin-left: 20px;">
+                <label>Substituição de páginas</label>
+                <select id="entradaSubstituicaoDePaginas" required>
+                  <option selected>SELECIONE</option>
+                  <option value="FIFO">FIFO</option>
+                  <option value="MRU">MRU <!-- Menos Recentemente Utilizado --></option>
+                </select>
+              </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            <div style = "float: left; margin-top: 0px; margin-right: 20px;" > 
+              <button 
+                type = "button" 
+                id = "botaoInserirProcesso" 
+                onClick = 'inserirProcesso()'>
+                Inserir processo
+              </button>
+            </div>
+
+            <br><div style = "margin-top: 10px">
+              
+            <div>
+              <button 
+                id = "botaoLimpar" 
+                style = "float: left; margin-right: 5px;" 
+                onClick = 'limparDados()' 
+                disabled>
+                Limpar
+              </button>
+              <button 
+                type="button" 
+                id = "botaoPausar" 
+                style="float: left; margin-right: 5px;" 
+                onClick = 'pausarSimulacao()' 
+                disabled>
+                || <!-- Pausa -->
+              </button>
+              <input 
+                type="range" 
+                id = "velocidadeExecucao" 
+                min = "0" 
+                max = "1000" 
+                onChange = "VelocidadeDeExecucao()" 
+                style = "margin-left: 10px"/>
+              <spam 
+                style = "float: left; margin-right: 0px; font-size: 12pt;">
+                Velocidade
+              </spam> 
+          </div>
+
+          <div style = "margin-top: 10px"></div>
+
+          <div class = "caixaFluida">
+            <div clas s= "row">
+              <div class = "processosFluid" style = "padding: 0px;">
+                <div id = "process" class = "linhaDoFormulario" >
+                      
+                </div>
+              </div>
+
+              <br>
+
+              <div>
+                <button type="button" id = "iniciarSimulacaoFIFO" style = "float: rigth;  margin-right: 20px;" 
+                  value = "FIFO" 
+                  onCLick = 'iniciarASimulacao("FIFO")'>
+                  FIFO
+                </button>
+                <button type="button" id = "iniciarSimulacaoSJF" style = "float: rigth;  margin-right: 20px;" 
+                  value = "SJF" 
+                  onCLick = 'iniciarASimulacao("SJF")'>
+                  SJF
+                </button>
+                <button type="button" id = "iniciarSimulacaoROUND" style = "float: rigth;  margin-right: 20px;" 
+                  value = "ROUND" 
+                  onCLick = 'iniciarASimulacao("ROUND")'>
+                  RR <!--(Round Robin)--> 
+                </button>
+                <button type="button" id = "iniciarSimulacaoEDF" style = "float: rigth;  margin-right: 20px;" 
+                  value = "EDF" 
+                  onCLick = 'iniciarASimulacao("EDF")'>
+                  EDF
+                </button>
+              </div>
+
+              <div class = "execucaoFluid">
+                <h1 class>Execução</h1>
+                <div id = "grafico" style=" padding: 0px; overflow-x:scroll;">
+                  <table id= 'tabela' width="80px" style="margin-left:10px; ">
+                    <tr id = "nomes-tabela"><h3>
+                      Processos</h3></tr>
+                  </table>
+                </div>
+                <div>
+                  <span id = "turnaround">
+                    Turnaround médio = [...]</span>
+                </div>    
+                <table id = "filasDeProcessos" style = "margin-top: 10px;">
+                  <tr>
+                    <th style = "width: 140px; font-size: 10pt; text-align: center;">
+                      Execução</th>                           
+                  </tr>
+                  <tr id = "listaDeExecucao">
+                    <td id = "processoExecutando"></td>
+                  </tr>
+                  <tr>
+                    <th style = "max-width: 140px; font-size: 10pt; text-align: center;">
+                      I/O</th>
+                  </tr>
+                  <tr id = "listaDeIO">
+                    <td id = "IODoProcess"></td>                            
+                  </tr>
+                </table>
+              </div> 
+
+              <table>
+                <tr id = "primeiraLinhaDaMemoriaVirtual">
+                  <th rowspan = "2" style = "width: 70px; height: 50px;">Memoria Virtual</th>
+                </tr>   
+                <tr  id = "memoriaVirtual"></tr> 
+              </table>
+
+              <BR>
+
+              <table>
+                <tr id="primeiraLinhaDaMemoriaReal">
+                  <th rowspan = "2" style = "width: 70px; height: 50px;">Memoria Real</th>
+                </tr>
+                <tr id = "segundaLinhaDaMemoriaReal"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <script 
+      src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+      integrity = "sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" 
+      crossorigin = "anonymous">
+    </script>
+    <script 
+      src = "https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+      integrity = "sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+      crossorigin = "anonymous">
+    </script>
+    <script 
+      src = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
+      integrity = "sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" 
+      crossorigin = "anonymous">
+    </script>
+  </body>
+  <footer>
+    <br>
+    <br>
+    <img src = "ufba.webp">
+    <p>Thiago Coutinho Sousa Silva</p>
+    <p>Marcelo Paranhos</p>
+    <p class = "copyright">&copy; - 2022</p>
+  </footer>
+</html>
