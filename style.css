@@ -8,15 +8,6 @@ footer {
 	padding: 20px 0;
 }
 
-.tituloPrincipal {
-	text-align: center;
-}
-.tituloSecundario {
-	text-align: center;
-	width: 138px; 
-	font-size: 10pt; 
-}
-
 .opcoes {
     text-align: center;
     display: inline-flex;
