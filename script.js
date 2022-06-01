@@ -51,7 +51,7 @@ function processInfo(nodes, algorithm) {
             arriveTime:document.getElementById("entradaDeTempoDeIO"+nodes[i]).value, 
             execTime:document.getElementById("inputexecute"+nodes[i]).value, 
             deadline:document.getElementById("inputdeadline"+nodes[i]).value, 
-            priority:document.getElementById("inputpriority"+nodes[i]).value,
+            priority:0,
             totalTime:0,
             inIO:false,
             inIOqueue:false,
@@ -480,6 +480,7 @@ function inserirProcesso() {
     i2emeio.setAttribute('class', "intdiv");
     i2emeio.setAttribute('style',"margin: -10px 0px 10px 5px;");
 
+
     var i2 = document.createElement("div");
     i2.setAttribute('class', "form-row");
 
@@ -494,12 +495,14 @@ function inserirProcesso() {
     t.setAttribute('type', "number");
     t.setAttribute('class', "form-control ajuste");
     t.setAttribute('min', "0");
-    t.setAttribute('id', "entradaDeTempoDeIO" + parseInt(cont));
+    t.setAttribute('id', "entradaDeTempoDeIO" + parseInt(cont));//
     t.setAttribute('value', "0");
     
     i.appendChild(p);
     i.appendChild(t);
     i2.appendChild(i);
+
+    //
 
     i = document.createElement("div");
     i.setAttribute('class',"form-group col-sm-5");
@@ -512,7 +515,7 @@ function inserirProcesso() {
     t.setAttribute('type', "number");
     t.setAttribute('class', "form-control ajuste");
     t.setAttribute('min', "0");
-    t.setAttribute('id', "inputexecute"+parseInt(cont));
+    t.setAttribute('id', "inputexecute"+parseInt(cont));//
     t.setAttribute('value', "0");
 
     i.appendChild(p);
@@ -523,27 +526,9 @@ function inserirProcesso() {
     document.getElementById('parametrosBasicos').appendChild(i3);
 
     i2.appendChild(i);
-    i2emeio.appendChild(i2);
 
-    i2 = document.createElement("div");
-    i2.setAttribute('class', "form-row");
-
-    i = document.createElement("div");
-    i.setAttribute('class',"form-group col-sm-5");
-    
-    p = document.createElement("label");
-    p.setAttribute('for', "nsei");
-    p.innerHTML = "<br>Prioridade";
-
-    t = document.createElement("input");
-    t.setAttribute('type', "number");
-    t.setAttribute('class', "form-control ajuste");
-    t.setAttribute('id', "inputpriority"+parseInt(cont));
-    t.setAttribute('value', "0");
-
-    i.appendChild(p);
-    i.appendChild(t);
-    i2.appendChild(i);
+    //
+    //
     
     i = document.createElement("div");
     i.setAttribute('class',"form-group col-sm-5");
@@ -556,12 +541,15 @@ function inserirProcesso() {
     t.setAttribute('type', "number");
     t.setAttribute('class', "form-control ajuste");
     t.setAttribute('min', "0");
-    t.setAttribute('id', "inputdeadline"+parseInt(cont));
+    t.setAttribute('id', "inputdeadline"+parseInt(cont));//
     t.setAttribute('value', "0");
 
     i.appendChild(p);
     i.appendChild(t);
     i2.appendChild(i);
+
+    //
+
     i2emeio.appendChild(i2);
 
     i2emeio.style.overflowY = "hidden";
