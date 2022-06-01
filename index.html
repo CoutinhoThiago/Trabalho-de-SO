@@ -14,7 +14,9 @@
 
     <script src="script.js"></script>
 
-    <title>ESCALONADOR</title>
+    <title>
+      ESCALONADOR
+    </title>
   </head>
 
 
@@ -22,18 +24,24 @@
   <body>
     <div>
       <div>
-        <h1>Escalonamento de Processos</h1>
-
-
+        <h1>
+          Escalonamento de Processos
+        </h1>
           <div id="parametrosBasicos">
             <div class="opcoes">
               <div class="">
                 <div style = "margin-top: 10px; margin-left: 20px;">
-                  <label>Quantum</label><br>
+                  <label>
+                    Quantum
+                  </label>
+                  <br>
                   <input type="number" id="entradaDeQuantum" min="1" value="3" style = "width: 150px;">
                 </div>
                 <div style = "margin-top: 10px; margin-left: 20px;">
-                  <label>Sobrecarga</label><br>
+                  <label>
+                    Sobrecarga
+                  </label>
+                  <br>
                   <input type="number" id="entradaDeSobrecarga" min="0" value="1" style = "width: 150px;">
                 </div>
               </div>
@@ -42,11 +50,17 @@
 
               <div class="">
                 <div style = "margin-top: 10px; margin-left: 20px;">
-                  <label>Nº Páginas</label><br>
+                  <label>
+                    Nº Páginas
+                  </label>
+                  <br>
                   <input type="number" id="entradaDeQuantidadeDePaginas" min="1" value="7" style = "width: 150px;">
                 </div>
                 <div style = "margin-top: 10px; margin-left: 20px;">
-                  <label>Tempo de I/O</label><br>
+                  <label>
+                    Tempo de I/O
+                  </label>
+                  <br>
                   <input type="number" id="entradaDeTempoDeIO" min="0" value="5" style = "width: 150px;">
                 </div>
               </div>
@@ -54,11 +68,17 @@
 
             <dit class="">
               <div style = "margin-top: 10px; margin-left: 20px;">
-                <label>Escalonamento de Páginas</label>
+                <label>
+                  Escalonamento de Páginas
+                </label>
                 <br>
                 <select id="entradaEscalonamentoDePaginas" style = "width: 155px;">
-                  <option value="FIFO" selected>FIFO</option>
-                  <option value="MRU">MRU</option>
+                  <option value="FIFO" selected>
+                    FIFO
+                  </option>
+                  <option value="MRU">
+                    MRU
+                  </option>
                 </select>
               </div>
             </dit>
@@ -141,27 +161,39 @@
               </div>
 
               <div class = "execucaoFluid">
-                <h1 style="position: relative;">Execução</h1>
+                <h1 style="position: relative;">
+                  Execução
+                </h1>
 
                 <div id="grafico" style=" padding: 0px; overflow-x:scroll; width: 350px;">
                   <table id='tabela' width="80px" style="margin-left:10px; ">
-                    <tr id="nomes-tabela"><h3>Processos</h3></tr>
+                    <tr id="nomes-tabela">
+                      <h3>
+                        Processos
+                      </h3>
+                    </tr>
                   </table>
                 </div>
 
                 <div>
-                  <span id = "turnaround">Turnaround médio = [...]</span>
+                  <span id = "turnaround">
+                    Turnaround médio = [...]
+                  </span>
                 </div>
                         
                 <table id="filas-processos" style="margin-top: 10px;">
                   <tr>
-                    <th style="width: 138px; font-size: 10pt; text-align: center;">Execução</th>                           
+                    <th style="width: 138px; font-size: 10pt; text-align: center;">
+                      Execução
+                    </th>                           
                   </tr>
                   <tr id="listaDeExecucao">
                     <td id="processoExecutando"></td>
                   </tr>
                   <tr>
-                    <th style="max-width: 138px; font-size: 10pt; text-align: center;">I/O</th>
+                    <th style="max-width: 138px; font-size: 10pt; text-align: center;">
+                      I/O
+                    </th>
                   </tr>
                   <tr id="listaDeIO">
                     <td id="IODoProcess"></td>                            
@@ -171,7 +203,9 @@
 
               <table>
                 <tr id = "primeiraLinhaDaMemoriaVirtual">
-                  <th rowspan="2" style="width: 70px; height: 50px;">Memoria Virtual</th>
+                  <th rowspan="2" style="width: 70px; height: 50px;">
+                    Memoria Virtual
+                  </th>
                 </tr>   
                 <tr  id="memoriaVirtual"></tr> 
               </table>
@@ -180,7 +214,9 @@
 
               <table>
                 <tr id="primeiraLinhaDaMemoriaReal">
-                  <th rowspan="2" style="width: 70px; height: 50px;">Memoria Real</th>
+                  <th rowspan="2" style="width: 70px; height: 50px;">
+                    Memoria Real
+                  </th>
                 </tr>
                 <tr id="segundaLinhaDaMemoriaReal"></tr>
               </table>
@@ -209,7 +245,11 @@
   <footer>
     <br><br>
     <img src="ufba.webp">
-    <p>Thiago Coutinho Sousa Silva</p>
-    <p class="copyright">&copy; - 2022</p>
+    <p>
+      Thiago Coutinho Sousa Silva
+    </p>
+    <p class="copyright">&copy; - 
+      2022
+    </p>
   </footer>
 </html>
