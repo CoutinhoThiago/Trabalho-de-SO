@@ -18,7 +18,7 @@ var criado = false;
 
 var primeiraVez = false; // ( ͡° ͜ʖ ͡°) //
 
-var RUNNING = false;
+var FUNCIONANDO = false;
 
 //--------------------------------------------------
 
@@ -33,28 +33,22 @@ var ID;
 
 function processInfo(nodes, algorithm) {
     quantum = document.getElementById("entradaDeQuantum").value
-
     sobrecarga = document.getElementById("entradaDeSobrecarga").value
-
     numeroDePaginas = document.getElementById("entradaDeQuantidadeDePaginas").value
-
     tempoDeIO = document.getElementById("entradaDeTempoDeIO").value
-
     tipoDeMemoria = document.getElementById('entradaEscalonamentoDePaginas').value
-
     processos = []
-
     for(var i in nodes) {
         processos.push({
             idNome:parseInt(nodes[i]),
             id:parseInt(i),
-            arriveTime:document.getElementById("entradaDeTempoDeIO"+nodes[i]).value, 
-            execTime:document.getElementById("inputexecute"+nodes[i]).value, 
-            deadline:document.getElementById("inputdeadline"+nodes[i]).value, 
-            priority:0,
+            tempoDeChegada:document.getElementById("entradaDeTempoDeIO"+nodes[i]).value, 
+            execTime:document.getElementById("entradaDeTempoDeExecucao"+nodes[i]).value, 
+            deadline:document.getElementById("entradaDeDeadline"+nodes[i]).value, 
             totalTime:0,
-            inIO:false,
-            inIOqueue:false,
+            priority:0,
+            noIO:false,
+            naFilaDeIO:false,
             exists:false
         });
     }
@@ -222,11 +216,11 @@ function pausarSimulacao(){
 function frame(){
     if(!pause){
         informations = simulacao.simularTempo();
-        RUNNING = true;
+        FUNCIONANDO = true;
     }     
     else{
         clearInterval(ID);
-        RUNNING = false;
+        FUNCIONANDO = false;
     }
        
     
@@ -252,7 +246,7 @@ function frame(){
         for (b ; b < informations.column.length; b++) {
             if(pause)
                 break; 
-            atualTr = document.getElementById("linha"+nodes[b]);
+            atualTr = document.getElementById("linha" + nodes[b]);
             newCol = document.createElement('td');
             newCol.setAttribute('class',"square");
             newCol.style.height = "30px";
@@ -339,23 +333,23 @@ function frame(){
         for(let i in informations.exec){
             tdQueueExec = document.createElement('td');
             tdQueueExec.setAttribute('class', "secundarios")
-            spanQueueExec = document.createElement('span');
-            spanQueueExec.setAttribute('class',"processo-coad");
-            spanQueueExec.style.backgroundColor = "rgb(221, 207, 42)";
-            spanQueueExec.innerHTML = "P"+informations.exec[i].idNome;
+            filaDeExtensaoExecutavel = document.createElement('span');
+            filaDeExtensaoExecutavel.setAttribute('class',"processoSecundario");
+            filaDeExtensaoExecutavel.style.backgroundColor = "rgb(221, 207, 42)";
+            filaDeExtensaoExecutavel.innerHTML = "P" + informations.exec[i].idNome;
 
-            tdQueueExec.appendChild(spanQueueExec);
+            tdQueueExec.appendChild(filaDeExtensaoExecutavel);
             document.getElementById('listaDeExecucao').appendChild(tdQueueExec);
         }
         for(let i = 1; i < informations.io.length; i++){
             tdQueueExec = document.createElement('td');
             tdQueueExec.setAttribute('class', "secundarios")
-            spanQueueExec = document.createElement('span');
-            spanQueueExec.setAttribute('class',"processo-coad");
-            spanQueueExec.style.backgroundColor = "lightgray";
-            spanQueueExec.innerHTML = "P"+informations.io[i].idNome;
+            filaDeExtensaoExecutavel = document.createElement('span');
+            filaDeExtensaoExecutavel.setAttribute('class',"processoSecundario");
+            filaDeExtensaoExecutavel.style.backgroundColor = "lightgray";
+            filaDeExtensaoExecutavel.innerHTML = "P"+informations.io[i].idNome;
 
-            tdQueueExec.appendChild(spanQueueExec);
+            tdQueueExec.appendChild(filaDeExtensaoExecutavel);
             document.getElementById('listaDeIO').appendChild(tdQueueExec);
         }
 
@@ -364,7 +358,7 @@ function frame(){
 }
 
 function VelocidadeDeExecucao(){
-    if(RUNNING){
+    if(FUNCIONANDO){
         clearInterval(ID);
         ID = setInterval(frame,  1000 - document.getElementById('velocidadeExecucao').value);
     }    
@@ -392,7 +386,7 @@ function deleteProcessQueue() {
 
 function iniciarASimulacao(algorithm) {    
     $('#iniciarSimulacao').attr("disabled", true);
-    $('.removeButton').css("display" , "none");
+    $('.botaoRemover').css("display" , "none");
     $('body :input').attr("disabled" , true);
     $('#botaoPausar').attr("disabled" , false);
     $('#botaoLimpar').attr("disabled", true);
@@ -426,7 +420,7 @@ function iniciarASimulacao(algorithm) {
 function limparDados(){
     pause = true;
     $('.square').remove();
-    $('.removeButton').css("display" , "block");
+    $('.botaoRemover').css("display" , "block");
     $('body :input').attr("disabled" , false);
     $('#botaoPausar').attr("disabled", true);
     $('#botaoLimpar').attr("disabled", true);
@@ -515,7 +509,7 @@ function inserirProcesso() {
     t.setAttribute('type', "number");
     t.setAttribute('class', "form-control ajuste");
     t.setAttribute('min', "0");
-    t.setAttribute('id', "inputexecute"+parseInt(cont));//
+    t.setAttribute('id', "entradaDeTempoDeExecucao"+parseInt(cont));//
     t.setAttribute('value', "0");
 
     i.appendChild(p);
@@ -541,7 +535,7 @@ function inserirProcesso() {
     t.setAttribute('type', "number");
     t.setAttribute('class', "form-control ajuste");
     t.setAttribute('min', "0");
-    t.setAttribute('id', "inputdeadline"+parseInt(cont));//
+    t.setAttribute('id', "entradaDeDeadline"+parseInt(cont));//
     t.setAttribute('value', "0");
 
     i.appendChild(p);
@@ -562,7 +556,7 @@ function inserirProcesso() {
 
     t = document.createElement("button");
     t.setAttribute('type', "button");
-    t.setAttribute('class', "removeButton btn btn-primary");
+    t.setAttribute('class', "botaoRemover btn btn-primary");
     t.setAttribute('style', "height: 43px !important; top: 0px; position: absolute;");
     t.setAttribute('onClick', "deleteno("+cont+")");
     t.innerHTML = "X";
@@ -757,7 +751,7 @@ class NormalQueue {
             return this.arr.shift()
         }
     }
-    seek(){
+    procurat() {
         return this.arr[0]
     }
 }
@@ -800,7 +794,7 @@ class Simulacao {
         let turnAround = 0
         let count = 0
         for(var i=0; i < this.processos.length; i++){
-            if(this.tempoPercorrido >= this.processos[i].arriveTime) {
+            if(this.tempoPercorrido >= this.processos[i].tempoDeChegada) {
                 turnAround = parseInt(turnAround) + parseInt(this.processos[i].totalTime)
                 count++;
             }
@@ -821,9 +815,9 @@ class Simulacao {
         if(this.tempoDeIOUsado <= 0) {
             this.tempoDeIOUsado = this.tempoDeIO
             let x = this.ioQueue.dequeue()
-            x.inIOqueue = false
+            x.naFilaDeIO = false
             if(x != null) {
-                x.inIO = false
+                x.noIO = false
                 if(this.current != null && this.preemption == false) {
                     this.memoria.putPages(x.id, this.current.id)
                 }
@@ -856,18 +850,18 @@ class Simulacao {
         // Executa se nao for preempção
         if(this.preemption == false){
             if(this.current == null){
-                let auxCount = 0;
+                let contadorAuxiliar = 0;
                 while(this.readyQueue.length != 0){
                     var x = this.readyQueue.dequeue()
-                    this.memoria.referencePages(x.id, this.tempoPercorrido+auxCount)
+                    this.memoria.referencePages(x.id, this.tempoPercorrido + contadorAuxiliar)
                     if(this.memoria.hasAllPages(x.id)){
                         this.current = x
                         break
                     }
                     else{
                         this.ioQueue.queue(x)
-                        x.inIOqueue=true
-                        auxCount += this.increment
+                        x.naFilaDeIO=true
+                        contadorAuxiliar += this.increment
                     }
                 }
             }
@@ -879,7 +873,7 @@ class Simulacao {
         // Seta o topo da fila de IO como IO
         if(this.ioQueue.length != 0){
             this.tempoDeIOUsado--
-            this.ioQueue.seek().inIO = true
+            this.ioQueue.procurat().noIO = true
         }
 
         let currentColumn = this.createColumn(this.preemption, this.current)
@@ -891,7 +885,7 @@ class Simulacao {
             this.count--
         }
         
-        if (this.current != null && this.preemption == false && this.current.inIO == false){
+        if (this.current != null && this.preemption == false && this.current.noIO == false){
             this.usedQuantum--
         }
 
@@ -907,7 +901,7 @@ class Simulacao {
     checkArrived() {
         for(var i in this.processos) {
             
-            if(this.processos[i].arriveTime == this.tempoPercorrido) {
+            if(this.processos[i].tempoDeChegada == this.tempoPercorrido) {
                 if(this.processos[i].execTime == 0){
                     this.count--
                     break;
@@ -951,9 +945,9 @@ class Simulacao {
             }
             
             if(this.processos[i].exists ) {
-                if(this.processos[i].inIOqueue)
+                if(this.processos[i].naFilaDeIO)
                     value = "Q"
-                if(this.processos[i].inIO)
+                if(this.processos[i].noIO)
                     value = "D"
             }
 
@@ -996,13 +990,13 @@ class PrioQueue{
             this.length++
         }
     }
-    dequeue(){
+    dequeue() {
         if(this.arr.length > 0) {
             this.length--
             return this.arr.shift()
         }
     }
-    seek(){
+    procurat() {
         return this.arr[0]
     }
 }
@@ -1016,8 +1010,8 @@ class SimulacaoSJF extends Simulacao{
            if(a.execTime != b.execTime){
                return a.execTime - b.execTime
            }
-           else if(a.arriveTime != b.arriveTime){
-               return a.arriveTime - b.arriveTime
+           else if(a.tempoDeChegada != b.tempoDeChegada){
+               return a.tempoDeChegada - b.tempoDeChegada
            }
            else{
                 return a.id - b.id
