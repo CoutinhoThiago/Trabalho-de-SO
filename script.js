@@ -80,11 +80,6 @@ function processInfo(nodes, algorithm) {
     if(algorithm == "ROUND"){
         simulacao = new SimulacaoROUND(processos, memoria, tempoDeIO, quantum, sobrecarga)
     }
-    if(algorithm == "PRIO"){
-        simulacao = new SimulacaoPRIO(processos, memoria, tempoDeIO, quantum, sobrecarga)
-    }
-   
-    
 }
 
 
@@ -1071,17 +1066,5 @@ class SimulacaoEDF extends Simulacao{
                 this.processos[i].deadline -= 1;
             }
         }
-    }
-}
-
-
-class SimulacaoPRIO extends Simulacao{
-    constructor(processos, memoryAlgorithm, tempoDeIO, quantum, sobrecarga){
-        super(processos, memoryAlgorithm, tempoDeIO, quantum, sobrecarga)
-        this.compareFunc = function(a,b)
-        {
-            return b.priority - a.priority
-        }
-        this.readyQueue = new PrioQueue(this.compareFunc)
     }
 }
